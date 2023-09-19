@@ -20,18 +20,18 @@
         If it's divisible by both 3 and 5, print CracklePop. 
     */}
 
-    const { useState, useEffect, useRef } = React;
+    const { useRef, useState, useEffect} = React;
 
     function useInterval(callback, delay) {
-        const savedCallback = useRef();
+        const preCallback = useRef();
 
         useEffect(() => {
-            savedCallback.current = callback;
+            preCallback.current = callback;
         }, [callback]);
 
         useEffect(() => {
             let timer = setInterval(() => {
-                savedCallback.current();
+                preCallback.current();
             }, delay);
             return () => clearInterval(timer);
         }, [delay]);
@@ -117,8 +117,6 @@
         border: 0;
         padding: 0;
         font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        /* left: 0;
-        top: 0; */
         height: 100vh;
         width: 100vw;
         position: fixed;
@@ -139,7 +137,6 @@
         width: 50%;
 
         text-align: center;
-        /* letter-spacing: 20px; */
         line-break: anywhere;
     }
 </style>
