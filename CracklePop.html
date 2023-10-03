@@ -21,20 +21,30 @@
     */}
 
     const { useRef, useState, useEffect} = React;
+    let stopper = false;
 
     function useInterval(callback, delay) {
         const preCallback = useRef();
-
         useEffect(() => {
             preCallback.current = callback;
+            
+            if(stopper){
+                console.log('time up!')
+            }
         }, [callback]);
 
         useEffect(() => {
             let timer = setInterval(() => {
-                preCallback.current();
-            }, delay);
+                if(!stopper){
+                    preCallback.current();
+                }
+                else{
+                    clearInterval(timer)
+                }
+            }, [delay]);
+            
             return () => clearInterval(timer);
-        }, [delay]);
+        }, []);
     }
 
     function CracklePop() {
@@ -75,10 +85,10 @@
                 // setFill('');
                 setFill('▶️');
             }
-            // console.log(text)
+
             setLog(text);
-            if(counter >= 100){
-                clearInterval();
+            if(counter > 100){
+                stopper = true;
             }
         }, 1000);
 
